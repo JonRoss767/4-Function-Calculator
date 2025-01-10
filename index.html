@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.1.1/math.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <div id="Calculator">
+      <input type="text" id="result" />
+      <div id="buttons">
+        <button onclick="display('1')">1</button>
+        <button onclick="display('2')">2</button>
+        <button onclick="display('3')">3</button>
+        <button onclick="display('+')">+</button>
+        <button onclick="display('4')">4</button>
+        <button onclick="display('5')">5</button>
+        <button onclick="display('6')">6</button>
+        <button onclick="display('-')">-</button>
+        <button onclick="display('7')">7</button>
+        <button onclick="display('8')">8</button>
+        <button onclick="display('9')">9</button>
+        <button onclick="display('*')">*</button>
+        <button onclick="display('0')">0</button>
+        <button onclick="negate()">+/-</button>
+        <button onclick="display('.')">.</button>
+        <button onclick="display('/')">/</button>
+        <button onclick="clearDis()">C</button>
+        <button onclick="solve()">=</button>
+      </div>
+    </div>
+
+    <script>
+      // handles onClick for buttons
+      function display(val) {
+        console.log("Display updated through onClick");
+        document.getElementById("result").value += val;
+      }
+
+      // handle clearing of display
+      function clearDis() {
+        console.log("Clear button Clicked");
+        document.getElementById("result").value = "";
+      }
+
+      // handle solving of equation
+      function solve() {
+        let expression = document.getElementById("result").value;
+        try {
+          let result = math.evaluate(expression);
+          document.getElementById("result").value = result;
+        } catch (error) {
+          document.getElementById("result").value = "Error";
+        }
+      }
+
+      function negate() {
+        let num = document.getElementById("result").value;
+        num = math.multiply(num, -1);
+        document.getElementById("result").value = num;
+      }
+
+      // handle keyboard event
+      function handleKeyPress(event) {
+        console.log("key press registered");
+        if (
+          [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "+",
+            "-",
+            "*",
+            "/",
+            ".",
+          ].includes(event.key)
+        ) {
+          document.getElementById("result").value += event.key;
+        } else if (event.key === "Enter") {
+          solve();
+        } else if (event.key === "Backspace") {
+          clearDis();
+        }
+      }
+
+      // keyboard event listener
+      document.addEventListener("keyup", handleKeyPress);
+    </script>
+  </body>
+</html>
